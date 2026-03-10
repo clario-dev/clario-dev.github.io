@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Portfolio — WordPress · Flutter · Python</title>
+<meta name="description" content="Développeur freelance WordPress, Flutter & Python. Sites web et applications mobiles pour clients Afrique et Europe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:#05050a;
+  color:#e2ddd6;
+  font-family:'Outfit',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+:root{
+  --gold:#c9a96e;
+  --gold2:#e8c98a;
+  --gold-dim:rgba(201,169,110,.12);
+  --gold-glow:rgba(201,169,110,.25);
+  --red:#ff3a2f;
+  --bg:#05050a;
+  --bg1:#0a0a12;
+  --bg2:#0e0e18;
+  --bg3:#13131f;
+  --line:rgba(255,255,255,.07);
+  --line2:rgba(255,255,255,.12);
+  --muted:#6a6478;
+  --muted2:#a09ab0;
+  --w:#e2ddd6;
+}
+
+/* ═══════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════ */
+.cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--gold);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s,width .3s,height .3s,background .3s;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;
+  border:1px solid rgba(201,169,110,.5);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .08s linear,width .3s,height .3s,border-color .3s;
+}
+.cursor.grow{width:20px;height:20px;background:transparent;border:1px solid var(--gold)}
+.cursor-ring.grow{width:60px;height:60px;border-color:var(--gold)}
+
+/* ═══════════════════════════════════════════
+   NOISE OVERLAY
+═══════════════════════════════════════════ */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9997;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem 5%;
+  transition:background .4s,border-color .4s;
+}
+nav.scrolled{
+  background:rgba(5,5,10,.92);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.6rem;letter-spacing:.08em;
+  color:var(--w);text-decoration:none;line-height:1;
+}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  font-family:'DM Mono',monospace;
+  color:var(--muted);text-decoration:none;font-size:.72rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  transition:color .25s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;
+  width:0;height:1px;background:var(--gold);transition:width .3s;
+}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-avail{
+  display:flex;align-items:center;gap:.6rem;
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--gold);letter-spacing:.06em;
+}
+.nav-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}70%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 5% 6rem;
+  position:relative;overflow:hidden;
+}
+
+/* big bg text */
+.hero-bg-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(14rem,22vw,28rem);
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.04);
+  letter-spacing:-.02em;white-space:nowrap;
+  pointer-events:none;user-select:none;
+  animation:driftX 20s ease-in-out infinite alternate;
+}
+@keyframes driftX{from{transform:translate(-52%,-50%)}to{transform:translate(-48%,-50%)}}
+
+/* radial glow */
+.hero::before{
+  content:'';position:absolute;
+  width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 65%);
+  top:-200px;right:-200px;pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,58,47,.05) 0%,transparent 65%);
+  bottom:-100px;left:-100px;pointer-events:none;
+}
+
+/* grid lines */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,black 20%,transparent 100%);
+  pointer-events:none;
+}
+
+.hero-top{
+  position:absolute;top:2.5rem;left:5%;right:5%;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.hero-tag{
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;
+}
+.hero-tag span{color:var(--gold)}
+.hero-index{
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  color:var(--muted);letter-spacing:.06em;
+}
+
+.hero-content{position:relative;z-index:2}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;font-size:.72rem;
+  color:var(--gold);letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--gold);display:inline-block}
+
+.hero-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(5rem,12vw,13rem);
+  line-height:.92;letter-spacing:-.01em;
+  margin-bottom:2rem;
+}
+.hero-h1 .line1{display:block;color:var(--w)}
+.hero-h1 .line2{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--gold);
+}
+.hero-h1 .line3{display:block;color:var(--w)}
+
+.hero-bottom{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:3rem;padding-top:2.5rem;
+  border-top:1px solid var(--line);
+  position:relative;z-index:2;
+}
+.hero-desc{
+  font-size:1rem;color:var(--muted2);max-width:400px;
+  font-weight:300;line-height:1.8;
+}
+.hero-desc strong{color:var(--w);font-weight:500}
+.hero-ctas{display:flex;gap:1rem;align-items:center}
+.btn-gold{
+  background:var(--gold);color:#05050a;
+  padding:.85rem 2.2rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:.88rem;
+  text-decoration:none;letter-spacing:.04em;
+  transition:transform .25s,box-shadow .25s;display:inline-block;
+}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 16px 50px var(--gold-glow)}
+.btn-outline{
+  border:1px solid rgba(201,169,110,.35);color:var(--gold);
+  padding:.85rem 2.2rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-weight:500;font-size:.88rem;
+  text-decoration:none;letter-spacing:.04em;
+  transition:all .25s;display:inline-block;
+}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold)}
+
+/* scroll hint */
+.scroll-hint{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;z-index:2;
+}
+.scroll-text{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollDown 2s ease-in-out infinite}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* hero fade-in */
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-eyebrow{animation:heroIn .9s ease .2s forwards;opacity:0}
+.hero-h1{animation:heroIn 1s ease .35s forwards;opacity:0}
+.hero-bottom{animation:heroIn .9s ease .55s forwards;opacity:0}
+.hero-top{animation:heroIn .7s ease .1s forwards;opacity:0}
+
+/* ═══════════════════════════════════════════
+   MARQUEE STRIP
+═══════════════════════════════════════════ */
+.marquee-wrap{
+  overflow:hidden;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:var(--bg1);
+  padding:.9rem 0;
+}
+.marquee-track{
+  display:flex;gap:0;
+  width:max-content;
+  animation:marquee 25s linear infinite;
+}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{
+  display:flex;align-items:center;gap:2rem;
+  padding:0 2.5rem;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.1rem;letter-spacing:.12em;
+  color:var(--muted);white-space:nowrap;
+}
+.marquee-item.highlight{color:var(--gold)}
+.marquee-sep{color:var(--gold);font-size:1.2rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════
+   NUMBERS BAR (animated counters)
+═══════════════════════════════════════════ */
+.numbers-bar{
+  background:var(--bg1);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line);
+}
+.nb-item{
+  padding:3.5rem 3rem;
+  border-right:1px solid var(--line);
+  position:relative;overflow:hidden;
+}
+.nb-item:last-child{border-right:none}
+.nb-item::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform:translateX(-100%);transition:transform .6s ease;
+}
+.nb-item:hover::before{transform:translateX(0)}
+.nb-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.8rem,5vw,5rem);
+  line-height:1;letter-spacing:-.02em;
+  color:var(--w);
+}
+.nb-num sup{font-size:.5em;color:var(--gold);vertical-align:super}
+.nb-label{
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+  margin-top:.5rem;
+}
+
+/* ═══════════════════════════════════════════
+   PROJECTS SECTION
+═══════════════════════════════════════════ */
+#projects{
+  padding:7rem 5%;
+  background:var(--bg);
+}
+.sec-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:4rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--line);
+}
+.sec-left .sec-num{
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  color:var(--gold);letter-spacing:.1em;margin-bottom:.8rem;
+}
+.sec-left .sec-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.8rem,5vw,5rem);
+  letter-spacing:-.01em;line-height:.95;color:var(--w);
+}
+.sec-right{
+  max-width:380px;font-size:.88rem;color:var(--muted2);
+  font-weight:300;line-height:1.8;text-align:right;
+}
+.filter-row{
+  display:flex;gap:.5rem;margin-bottom:3rem;flex-wrap:wrap;
+}
+.f-btn{
+  background:transparent;border:1px solid var(--line2);color:var(--muted);
+  padding:.45rem 1.3rem;border-radius:1px;
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  letter-spacing:.08em;text-transform:uppercase;cursor:none;
+  transition:all .25s;
+}
+.f-btn.on,.f-btn:hover{background:var(--gold);border-color:var(--gold);color:#05050a}
+
+/* PROJECTS GRID — asymmetric */
+.proj-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.5rem}
+
+.proj-card{
+  background:var(--bg1);
+  border:1px solid var(--line);
+  overflow:hidden;position:relative;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .4s;
+}
+.proj-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(201,169,110,.3);
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(201,169,110,.1);
+}
+/* grid spanning */
+.proj-card:nth-child(1){grid-column:span 7}
+.proj-card:nth-child(2){grid-column:span 5}
+.proj-card:nth-child(3){grid-column:span 5}
+.proj-card:nth-child(4){grid-column:span 7}
+.proj-card:nth-child(5){grid-column:span 12}
+.proj-card:nth-child(6){grid-column:span 6}
+.proj-card:nth-child(7){grid-column:span 6}
+.proj-card:nth-child(8){grid-column:span 4}
+.proj-card:nth-child(9){grid-column:span 8}
+
+/* thumb */
+.p-thumb{
+  height:260px;overflow:hidden;position:relative;
+  background:var(--bg2);
+}
+.proj-card:nth-child(5) .p-thumb{height:340px}
+.p-thumb iframe{
+  position:absolute;top:0;left:0;
+  width:200%;height:200%;
+  transform:scale(.5);transform-origin:top left;
+  pointer-events:none;border:none;
+}
+/* overlay on thumb */
+.p-thumb::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,var(--bg1) 100%);
+  pointer-events:none;
+}
+.p-thumb.mock{
+  display:flex;align-items:center;justify-content:center;
+  overflow:visible;
+}
+
+/* mock visuals */
+.mock-phone{
+  width:110px;height:205px;border-radius:20px;
+  background:#0c0c16;border:2px solid #222;
+  position:relative;overflow:hidden;
+  box-shadow:0 25px 60px rgba(0,0,0,.8);
+  flex-shrink:0;
+}
+.mock-phone::before{
+  content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  width:32px;height:4px;background:#1a1a1a;border-radius:3px;z-index:2;
+}
+.mock-screen{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:.9rem;text-align:center;
+  font-size:.42rem;
+}
+.mock-terminal{
+  background:#080e08;border:1px solid rgba(0,200,100,.2);
+  border-radius:6px;padding:1.2rem;
+  font-family:'DM Mono',monospace;font-size:.42rem;
+  color:#00c864;line-height:1.9;width:240px;
+}
+.t-dots{display:flex;gap:.3rem;margin-bottom:.7rem}
+.t-dot{width:7px;height:7px;border-radius:50%}
+
+/* card body */
+.p-body{padding:1.5rem 1.8rem 1.8rem}
+.p-cat{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  color:var(--gold);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:.6rem;display:flex;align-items:center;gap:.6rem;
+}
+.p-fictif{
+  font-size:.58rem;background:var(--gold-dim);color:var(--gold);
+  border:1px solid rgba(201,169,110,.25);padding:.12rem .45rem;border-radius:1px;
+  letter-spacing:.04em;
+}
+.p-title{
+  font-family:'DM Serif Display',serif;
+  font-size:1.3rem;line-height:1.25;
+  color:var(--w);margin-bottom:.6rem;
+}
+.p-desc{font-size:.83rem;color:var(--muted2);line-height:1.7;font-weight:300;margin-bottom:1.3rem}
+.p-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:1.2rem;border-top:1px solid var(--line);
+}
+.p-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.p-tag{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  color:var(--muted2);letter-spacing:.05em;
+  border:1px solid var(--line2);padding:.18rem .6rem;border-radius:1px;
+}
+.p-link{
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  color:var(--gold);text-decoration:none;letter-spacing:.06em;
+  display:flex;align-items:center;gap:.4rem;transition:gap .2s;white-space:nowrap;
+}
+.p-link:hover{gap:.7rem}
+.p-link.dead{color:var(--muted);pointer-events:none}
+
+/* ═══════════════════════════════════════════
+   SCROLLING LOGOS / SKILLS STRIP
+═══════════════════════════════════════════ */
+.skills-strip{
+  background:var(--bg2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:4rem 5%;overflow:hidden;
+}
+.skills-strip-title{
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:2.5rem;text-align:center;
+}
+.skills-scroll-wrap{overflow:hidden;position:relative}
+.skills-scroll-wrap::before,.skills-scroll-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+}
+.skills-scroll-wrap::before{left:0;background:linear-gradient(to right,var(--bg2),transparent)}
+.skills-scroll-wrap::after{right:0;background:linear-gradient(to left,var(--bg2),transparent)}
+
+.skills-track{display:flex;gap:1rem;width:max-content;animation:skillsScroll 30s linear infinite}
+.skills-track:hover{animation-play-state:paused}
+.skill-pill{
+  display:flex;align-items:center;gap:.8rem;
+  background:var(--bg3);border:1px solid var(--line2);
+  padding:.8rem 1.6rem;border-radius:2px;white-space:nowrap;
+  transition:border-color .3s,transform .3s;
+}
+.skill-pill:hover{border-color:rgba(201,169,110,.4);transform:translateY(-2px)}
+.skill-pill-icon{font-size:1.2rem}
+.skill-pill-name{
+  font-family:'Outfit',sans-serif;font-weight:500;font-size:.85rem;color:var(--w);
+}
+.skill-pill-level{
+  font-family:'DM Mono',monospace;font-size:.6rem;color:var(--gold);
+  letter-spacing:.06em;
+}
+@keyframes skillsScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════
+   PROCESS — HORIZONTAL STEPS SCROLL
+═══════════════════════════════════════════ */
+#process{padding:7rem 0;background:var(--bg1);overflow:hidden}
+.process-inner{padding:0 5%;margin-bottom:3.5rem}
+.process-steps{
+  display:flex;gap:0;
+  padding:0 5%;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.process-steps::-webkit-scrollbar{display:none}
+.p-step{
+  flex:0 0 320px;padding:3rem;
+  border-right:1px solid var(--line);
+  position:relative;
+  transition:background .3s;
+}
+.p-step:hover{background:var(--bg2)}
+.p-step:first-child{border-left:1px solid var(--line)}
+.p-step-n{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:5rem;color:rgba(201,169,110,.08);
+  line-height:1;letter-spacing:-.02em;margin-bottom:1.5rem;
+}
+.p-step-title{
+  font-family:'DM Serif Display',serif;
+  font-size:1.3rem;color:var(--w);margin-bottom:.8rem;line-height:1.2;
+}
+.p-step-desc{font-size:.84rem;color:var(--muted2);line-height:1.7;font-weight:300}
+.p-step-icon{
+  position:absolute;top:2rem;right:2rem;
+  font-size:1.5rem;opacity:.4;
+}
+
+/* ═══════════════════════════════════════════
+   TESTIMONIALS — CINEMATIC CAROUSEL
+═══════════════════════════════════════════ */
+#testimonials{padding:7rem 5%;background:var(--bg)}
+.testi-carousel{
+  display:flex;gap:1.5rem;overflow:hidden;
+  position:relative;
+}
+.testi-track{display:flex;gap:1.5rem;animation:testiScroll 20s linear infinite}
+.testi-track:hover{animation-play-state:paused}
+@keyframes testiScroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - .75rem))}}
+.t-card{
+  flex:0 0 420px;
+  background:var(--bg1);border:1px solid var(--line);
+  padding:2.5rem;position:relative;
+  transition:border-color .3s,transform .3s;
+}
+.t-card:hover{border-color:rgba(201,169,110,.3);transform:translateY(-4px)}
+.t-quote{
+  font-family:'Bebas Neue',sans-serif;font-size:6rem;
+  color:rgba(201,169,110,.07);line-height:.7;
+  position:absolute;top:1.5rem;right:2rem;
+}
+.t-stars{color:var(--gold);font-size:.85rem;letter-spacing:.1em;margin-bottom:1.2rem}
+.t-text{
+  font-family:'DM Serif Display',serif;font-style:italic;
+  font-size:.96rem;color:var(--muted2);line-height:1.8;margin-bottom:1.8rem;
+}
+.t-author{display:flex;align-items:center;gap:1rem}
+.t-av{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--gold-dim);border:1px solid rgba(201,169,110,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);
+  flex-shrink:0;
+}
+.t-name{font-weight:600;font-size:.9rem;color:var(--w)}
+.t-role{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.05em;margin-top:.2rem}
+
+/* ═══════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════ */
+#contact{
+  padding:8rem 5%;background:var(--bg1);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;
+  border-top:1px solid var(--line);
+}
+.c-eyebrow{
+  font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gold);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.c-eyebrow::before{content:'';width:30px;height:1px;background:var(--gold)}
+.c-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,6vw,6rem);
+  line-height:.92;letter-spacing:-.01em;color:var(--w);margin-bottom:2rem;
+}
+.c-title em{color:var(--gold);font-style:normal;-webkit-text-stroke:0}
+.c-email{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(1.2rem,2.5vw,1.9rem);
+  color:var(--w);text-decoration:none;display:flex;align-items:center;gap:.7rem;
+  margin-bottom:2rem;transition:color .25s;border-bottom:1px solid var(--line);padding-bottom:2rem;
+}
+.c-email:hover{color:var(--gold)}
+.c-rows{display:flex;flex-direction:column;gap:.9rem;margin-bottom:2rem}
+.c-row{display:flex;align-items:center;gap:.9rem;font-size:.88rem;color:var(--muted2);font-weight:300}
+.c-row-icon{font-size:1rem;width:20px;text-align:center}
+.socials{display:flex;gap:.7rem;flex-wrap:wrap}
+.s-link{
+  font-family:'DM Mono',monospace;
+  border:1px solid var(--line2);color:var(--muted);
+  padding:.5rem 1.2rem;border-radius:1px;
+  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;font-weight:400;transition:all .25s;
+}
+.s-link:hover{border-color:var(--gold);color:var(--gold)}
+.cform{display:flex;flex-direction:column;gap:1rem}
+.cf-label{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  color:var(--muted);letter-spacing:.08em;text-transform:uppercase;
+  display:block;margin-bottom:.4rem;
+}
+.cf-field{
+  width:100%;background:var(--bg2);
+  border:1px solid var(--line2);border-radius:1px;
+  padding:1rem 1.2rem;color:var(--w);
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:300;
+  outline:none;resize:none;transition:border-color .25s;
+  cursor:none;
+}
+.cf-field:focus{border-color:rgba(201,169,110,.4)}
+.cf-field::placeholder{color:var(--muted)}
+textarea.cf-field{height:120px}
+.cf-submit{
+  background:var(--gold);color:#05050a;
+  padding:1.1rem;border:none;border-radius:1px;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.92rem;
+  letter-spacing:.05em;cursor:none;
+  transition:opacity .25s,transform .25s;
+}
+.cf-submit:hover{opacity:.88;transform:translateY(-2px)}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer{
+  background:var(--bg);border-top:1px solid var(--line);
+  padding:2.5rem 5%;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.f-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.08em;color:var(--w);text-decoration:none}
+.f-logo span{color:var(--gold)}
+.f-mid{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.06em;text-align:center}
+.f-right{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.06em}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv-l.on{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv-r.on{opacity:1;transform:translateX(0)}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:1100px){
+  .proj-card:nth-child(1),.proj-card:nth-child(2),.proj-card:nth-child(3),
+  .proj-card:nth-child(4),.proj-card:nth-child(5),.proj-card:nth-child(6),
+  .proj-card:nth-child(7),.proj-card:nth-child(8),.proj-card:nth-child(9){grid-column:span 6}
+}
+@media(max-width:768px){
+  nav ul,.nav-avail{display:none}
+  .hero-h1{font-size:4.5rem}
+  .hero-bottom{flex-direction:column;gap:2rem;align-items:flex-start}
+  .numbers-bar{grid-template-columns:repeat(2,1fr)}
+  .proj-card:nth-child(n){grid-column:span 12}
+  .sec-header{flex-direction:column;gap:1.5rem;align-items:flex-start}
+  .sec-right{text-align:left}
+  #contact{grid-template-columns:1fr;gap:3rem}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+  .testi-track{animation:none;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">DEV<span>.</span>FOLIO</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Avis</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-avail">
+    <span class="nav-dot"></span>
+    Disponible — Mars 2025
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg-text">DEV</div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-top">
+    <div class="hero-tag">Cotonou, Bénin 🇧🇯 — <span>Remote Worldwide</span></div>
+    <div class="hero-index">WordPress · Flutter · Python</div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Développeur Freelance</div>
+    <h1 class="hero-h1">
+      <span class="line1">JE CONSTRUIS</span>
+      <span class="line2">DES PRODUITS</span>
+      <span class="line3">DIGITAUX.</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        Sites e-commerce, applications mobiles et outils d'automatisation.<br>
+        <strong>Afrique de l'Ouest & Europe</strong> — livré dans les délais.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-gold">Voir mes projets</a>
+        <a href="#contact" class="btn-outline">Me contacter</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span class="scroll-text">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <!-- first set -->
+    <div class="marquee-item highlight">WordPress</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Flutter</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">React Native</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Python</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">WooCommerce</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Firebase</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">E-Commerce</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Mobile Apps</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">Automatisation</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">API REST</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">SEO</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Afrique & Europe</div><span class="marquee-sep">✦</span>
+    <!-- second set (duplicate for seamless loop) -->
+    <div class="marquee-item highlight">WordPress</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Flutter</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">React Native</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Python</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">WooCommerce</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Firebase</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">E-Commerce</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Mobile Apps</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">Automatisation</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">API REST</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item highlight">SEO</div><span class="marquee-sep">✦</span>
+    <div class="marquee-item">Afrique & Europe</div><span class="marquee-sep">✦</span>
+  </div>
+</div>
+
+<!-- ═══ NUMBERS BAR ═══ -->
+<div class="numbers-bar rv">
+  <div class="nb-item">
+    <div class="nb-num"><span class="counter" data-target="10">0</span><sup>+</sup></div>
+    <div class="nb-label">Projets livrés</div>
+  </div>
+  <div class="nb-item">
+    <div class="nb-num"><span class="counter" data-target="2">0</span><sup>+</sup></div>
+    <div class="nb-label">Années d'expérience</div>
+  </div>
+  <div class="nb-item">
+    <div class="nb-num"><span class="counter" data-target="100">0</span><sup>%</sup></div>
+    <div class="nb-label">Clients satisfaits</div>
+  </div>
+  <div class="nb-item">
+    <div class="nb-num"><span class="counter" data-target="3">0</span></div>
+    <div class="nb-label">Expertises core</div>
+  </div>
+</div>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="sec-header rv">
+    <div class="sec-left">
+      <div class="sec-num">01 — Réalisations</div>
+      <h2 class="sec-title">MES<br>PROJETS</h2>
+    </div>
+    <p class="sec-right">Sites web, applications mobiles et outils d'automatisation livrés à des clients en Afrique de l'Ouest et en Europe.</p>
+  </div>
+
+  <div class="filter-row rv">
+    <button class="f-btn on" onclick="filterP('all',this)">Tous</button>
+    <button class="f-btn" onclick="filterP('wp',this)">WordPress</button>
+    <button class="f-btn" onclick="filterP('mob',this)">Mobile Apps</button>
+    <button class="f-btn" onclick="filterP('py',this)">Python / Auto</button>
+  </div>
+
+  <div class="proj-grid" id="projGrid">
+
+    <!-- 1 — Lune Faction -->
+    <div class="proj-card rv" data-c="wp">
+      <div class="p-thumb">
+        <iframe src="https://lune-faction.com/" loading="lazy" scrolling="no" title="Lune Faction"></iframe>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">WordPress · E-commerce · Mode & Bijoux</div>
+        <div class="p-title">Lune Faction™ — Boutique Bijoux & Décorations</div>
+        <p class="p-desc">Boutique e-commerce nichée sur le thème lunaire. Bijoux, décorations, vêtements. Catalogue multi-catégories, paiement multi-devises, SEO avancé. Marché France & Europe.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">WooCommerce</span><span class="p-tag">SEO</span><span class="p-tag">FR/EU</span></div>
+          <a class="p-link" href="https://lune-faction.com/" target="_blank" rel="noopener">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 — Ara Business -->
+    <div class="proj-card rv" data-c="wp">
+      <div class="p-thumb">
+        <iframe src="https://www.arabusiness.fr/" loading="lazy" scrolling="no" title="Ara Business"></iframe>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">WordPress · Mode Féminine · Dakar 🇸🇳</div>
+        <div class="p-title">Ara Business — Sacs, Bijoux & Chaussures</div>
+        <p class="p-desc">Boutique e-commerce élégante pour femmes à Dakar. Sacs de luxe, bijoux chic, chaussures tendance. Livraison locale intégrée, collections saisonnières.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">WordPress</span><span class="p-tag">Dakar</span><span class="p-tag">Mode</span></div>
+          <a class="p-link" href="https://www.arabusiness.fr/" target="_blank" rel="noopener">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 — Daaru Al'Qurane -->
+    <div class="proj-card rv" data-c="wp">
+      <div class="p-thumb">
+        <iframe src="https://daarualqurane.com/" loading="lazy" scrolling="no" title="Daaru Al Qurane"></iframe>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">WordPress · E-learning · Institut islamique</div>
+        <div class="p-title">Daaru Al'Qurane — Enseignement en ligne</div>
+        <p class="p-desc">Plateforme LMS complète d'enseignement du Coran et de l'arabe. Inscription, programmes, marketplace, paiement PayPal & carte bancaire intégrés.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">LMS</span><span class="p-tag">Paiement</span><span class="p-tag">E-learning</span></div>
+          <a class="p-link" href="https://daarualqurane.com/" target="_blank" rel="noopener">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 — Best Gift Hunt -->
+    <div class="proj-card rv" data-c="wp">
+      <div class="p-thumb">
+        <iframe src="https://bestgifthunt.com/" loading="lazy" scrolling="no" title="Best Gift Hunt"></iframe>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">WordPress · Affiliation Amazon · SEO</div>
+        <div class="p-title">Best Gift Hunt — Blog Affiliation Amazon</div>
+        <p class="p-desc">Site d'affiliation Amazon pour le marché francophone. Curation tech, cadeaux, lifestyle. Architecture SEO on-page optimisée, monétisation passive.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">SEO</span><span class="p-tag">Amazon</span><span class="p-tag">Affiliation</span></div>
+          <a class="p-link" href="https://bestgifthunt.com/" target="_blank" rel="noopener">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 — Almaqam Bamako (wide) -->
+    <div class="proj-card rv" data-c="wp">
+      <div class="p-thumb">
+        <iframe src="https://almaqambko.com/hajj/" loading="lazy" scrolling="no" title="Almaqam Bamako"></iframe>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">WordPress · Agence de voyage · Bamako 🇲🇱</div>
+        <div class="p-title">Almaqam Bamako — Hajj & Omra depuis Bamako</div>
+        <p class="p-desc">Site institutionnel pour agence de voyages spirituels depuis Bamako. Pré-inscriptions Hajj 2026 & Omra, programmes et tarifs, blog islamique, intégration WhatsApp Business.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">WordPress</span><span class="p-tag">Voyage</span><span class="p-tag">Mali</span><span class="p-tag">WhatsApp</span></div>
+          <a class="p-link" href="https://almaqambko.com/hajj/" target="_blank" rel="noopener">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 — MealFlow App (FICTIF) -->
+    <div class="proj-card rv" data-c="mob">
+      <div class="p-thumb mock" style="background:linear-gradient(135deg,#0a0300,#180900)">
+        <div style="display:flex;gap:16px;align-items:flex-end;padding:1.5rem">
+          <div class="mock-phone">
+            <div class="mock-screen" style="background:linear-gradient(160deg,#100400,#1c0800)">
+              <div style="font-size:1.4rem;margin-bottom:.4rem">🍔</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:#c9a96e;letter-spacing:.1em">MEALFLOW</div>
+              <div style="font-size:.38rem;color:#666;margin:.3rem 0">7 restaurants proches</div>
+              <div style="background:#c9a96e;color:#050505;border-radius:3px;padding:.3rem .6rem;font-size:.4rem;font-weight:700;margin-top:.3rem">Commander →</div>
+            </div>
+          </div>
+          <div class="mock-phone" style="height:175px;opacity:.5">
+            <div class="mock-screen" style="background:linear-gradient(160deg,#100400,#1c0800)">
+              <div style="font-size:1rem">🛵</div>
+              <div style="font-size:.38rem;color:#888;margin:.3rem 0">En route...</div>
+              <div style="width:65%;height:2px;background:#c9a96e;border-radius:2px"></div>
+              <div style="font-size:.35rem;color:#c9a96e;margin-top:.25rem">ETA 8 min</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">Flutter · App Mobile · Food-tech <span class="p-fictif">FICTIF</span></div>
+        <div class="p-title">MealFlow — Livraison de repas</div>
+        <p class="p-desc">App Flutter Android & iOS pour startup food-tech à Cotonou. Commande temps réel, suivi GPS livreur, paiement Mobile Money (Wave, Orange), notifications push.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">Flutter</span><span class="p-tag">Firebase</span><span class="p-tag">Maps</span></div>
+          <span class="p-link dead">Projet fictif</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 — QurApp (FICTIF) -->
+    <div class="proj-card rv" data-c="mob">
+      <div class="p-thumb mock" style="background:linear-gradient(135deg,#00100a,#001a10)">
+        <div style="padding:1.5rem;display:flex;gap:16px;align-items:center;justify-content:center">
+          <div class="mock-phone" style="height:215px">
+            <div class="mock-screen" style="background:linear-gradient(160deg,#000e08,#001510)">
+              <div style="font-size:1.3rem;margin-bottom:.4rem">📖</div>
+              <div style="font-family:'Bebas Neue',sans-serif;font-size:.88rem;color:#00c87a;letter-spacing:.1em">QURAPP</div>
+              <div style="font-size:.36rem;color:#555;margin:.3rem 0">Al-Baqara · Verset 255</div>
+              <div style="width:100%;background:#0a1a10;border-radius:2px;height:3px;margin:.4rem 0">
+                <div style="width:65%;background:#00c87a;height:100%;border-radius:2px"></div>
+              </div>
+              <div style="font-size:.35rem;color:#00c87a">65% mémorisé</div>
+              <div style="margin-top:.5rem;background:rgba(0,200,122,.12);border:1px solid rgba(0,200,122,.25);border-radius:2px;padding:.25rem .5rem;font-size:.36rem;color:#00c87a">▶ Écouter</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">React Native · E-learning islamique <span class="p-fictif">FICTIF</span></div>
+        <div class="p-title">QurApp — Mémorisation du Coran</div>
+        <p class="p-desc">Application mobile complémentaire à Daaru Al'Qurane. Audio tajwid, suivi de mémorisation, rappels quotidiens de révision, progression par sourate. Android & iOS.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">React Native</span><span class="p-tag">Audio</span><span class="p-tag">Firebase</span></div>
+          <span class="p-link dead">Projet fictif</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 — StockBot (FICTIF) -->
+    <div class="proj-card rv" data-c="py">
+      <div class="p-thumb mock" style="background:linear-gradient(135deg,#010112,#02021e)">
+        <div class="mock-terminal">
+          <div class="t-dots">
+            <div class="t-dot" style="background:#ff5f57"></div>
+            <div class="t-dot" style="background:#febc2e"></div>
+            <div class="t-dot" style="background:#28c840"></div>
+          </div>
+          <span style="color:#444">$</span> python stockbot.py<br>
+          <span style="color:#5588ff">→</span> Connexion DB… <span style="color:#00c864">OK</span><br>
+          <span style="color:#5588ff">→</span> 247 produits scannés<br>
+          <span style="color:#c9a96e">⚠</span> 12 ruptures imminentes<br>
+          <span style="color:#5588ff">→</span> Rapport PDF… <span style="color:#00c864">OK</span><br>
+          <span style="color:#5588ff">→</span> Email → 3 dest. <span style="color:#00c864">✓</span><br>
+          <span style="color:#444">— Next run: 08:00 ——</span>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">Python · Automatisation · Stocks <span class="p-fictif">FICTIF</span></div>
+        <div class="p-title">StockBot — Gestion automatisée de stocks</div>
+        <p class="p-desc">Script Python qui surveille les stocks d'un grossiste, génère des rapports PDF et envoie des alertes email automatiques chaque matin. Zéro intervention manuelle.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">Python</span><span class="p-tag">Pandas</span><span class="p-tag">SMTP</span></div>
+          <span class="p-link dead">Projet fictif</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 — ReserveBot (FICTIF) -->
+    <div class="proj-card rv" data-c="py">
+      <div class="p-thumb mock" style="background:linear-gradient(135deg,#000f08,#001a10)">
+        <div style="width:240px;display:flex;flex-direction:column;gap:.3rem;padding:1rem">
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#25d366;letter-spacing:.08em;text-align:center;margin-bottom:.4rem">💬 ReserveBot — WhatsApp</div>
+          <div style="background:#1f2c34;border-radius:6px 6px 6px 2px;padding:.45rem .65rem;font-size:.38rem;color:#e9edef;align-self:flex-start;max-width:78%">Table pour 4 ce soir 20h ? 🙏</div>
+          <div style="background:#005c4b;border-radius:6px 6px 2px 6px;padding:.45rem .65rem;font-size:.38rem;color:#e9edef;align-self:flex-end;max-width:78%">✅ Réservé ! Rappel 1h avant 🍽️</div>
+          <div style="background:#1f2c34;border-radius:6px 6px 6px 2px;padding:.45rem .65rem;font-size:.38rem;color:#e9edef;align-self:flex-start;max-width:55%">Merci ! 😊</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.35rem;color:#25d366;text-align:center;margin-top:.3rem">Géré automatiquement · 0 humain</div>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">Python · WhatsApp Bot · Restauration <span class="p-fictif">FICTIF</span></div>
+        <div class="p-title">ReserveBot — Réservations WhatsApp auto</div>
+        <p class="p-desc">Bot Python connecté à WhatsApp Business pour gérer automatiquement les réservations d'un restaurant à Cotonou : confirmation, rappels, annulations en temps réel.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">Python</span><span class="p-tag">WhatsApp API</span><span class="p-tag">SQLite</span></div>
+          <span class="p-link dead">Projet fictif</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ SKILLS STRIP ═══ -->
+<div class="skills-strip">
+  <div class="skills-strip-title">Stack technique</div>
+  <div class="skills-scroll-wrap">
+    <div class="skills-track" id="skillsTrack">
+      <!-- first set -->
+      <div class="skill-pill"><span class="skill-pill-icon">🌐</span><span class="skill-pill-name">WordPress</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🛒</span><span class="skill-pill-name">WooCommerce</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">📱</span><span class="skill-pill-name">Flutter</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">⚛️</span><span class="skill-pill-name">React Native</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🐍</span><span class="skill-pill-name">Python</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🔥</span><span class="skill-pill-name">Firebase</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🗺️</span><span class="skill-pill-name">Google Maps API</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🔍</span><span class="skill-pill-name">SEO On-page</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">💳</span><span class="skill-pill-name">Intégration paiement</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🤖</span><span class="skill-pill-name">Automation Python</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🎨</span><span class="skill-pill-name">Elementor Pro</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🌍</span><span class="skill-pill-name">Sites multilingues</span><span class="skill-pill-level">Expert</span></div>
+      <!-- duplicate -->
+      <div class="skill-pill"><span class="skill-pill-icon">🌐</span><span class="skill-pill-name">WordPress</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🛒</span><span class="skill-pill-name">WooCommerce</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">📱</span><span class="skill-pill-name">Flutter</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">⚛️</span><span class="skill-pill-name">React Native</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🐍</span><span class="skill-pill-name">Python</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🔥</span><span class="skill-pill-name">Firebase</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🗺️</span><span class="skill-pill-name">Google Maps API</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🔍</span><span class="skill-pill-name">SEO On-page</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">💳</span><span class="skill-pill-name">Intégration paiement</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🤖</span><span class="skill-pill-name">Automation Python</span><span class="skill-pill-level">Intermédiaire</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🎨</span><span class="skill-pill-name">Elementor Pro</span><span class="skill-pill-level">Expert</span></div>
+      <div class="skill-pill"><span class="skill-pill-icon">🌍</span><span class="skill-pill-name">Sites multilingues</span><span class="skill-pill-level">Expert</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process">
+  <div class="process-inner rv">
+    <div class="sec-num" style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gold);letter-spacing:.1em;margin-bottom:.8rem">02 — Process</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,5rem);letter-spacing:-.01em;line-height:.95;color:var(--w)">COMMENT<br>JE TRAVAILLE</h2>
+  </div>
+  <div class="process-steps">
+    <div class="p-step rv">
+      <div class="p-step-icon">🎯</div>
+      <div class="p-step-n">01</div>
+      <div class="p-step-title">Brief & Analyse</div>
+      <p class="p-step-desc">On échange sur le projet, les objectifs, la cible et les contraintes. Je pose les bonnes questions avant tout chiffrage pour bien cadrer le besoin.</p>
+    </div>
+    <div class="p-step rv">
+      <div class="p-step-icon">📄</div>
+      <div class="p-step-n">02</div>
+      <div class="p-step-title">Devis & Contrat</div>
+      <p class="p-step-desc">Devis détaillé avec délai, livrables et conditions claires. Acompte 50% pour démarrer dans les 48h. Tout est écrit et signé avant de commencer.</p>
+    </div>
+    <div class="p-step rv">
+      <div class="p-step-icon">⚙️</div>
+      <div class="p-step-n">03</div>
+      <div class="p-step-title">Développement</div>
+      <p class="p-step-desc">Développement itératif avec partage d'avancement régulier. Tu vois et valides chaque étape clé du projet. Communication WhatsApp ou email.</p>
+    </div>
+    <div class="p-step rv">
+      <div class="p-step-icon">✅</div>
+      <div class="p-step-n">04</div>
+      <div class="p-step-title">Tests & Corrections</div>
+      <p class="p-step-desc">Phase de test cross-browser et mobile. Corrections incluses sur le scope défini. 2 allers-retours de révision garantis avant livraison finale.</p>
+    </div>
+    <div class="p-step rv">
+      <div class="p-step-icon">🚀</div>
+      <div class="p-step-n">05</div>
+      <div class="p-step-title">Livraison & Support</div>
+      <p class="p-step-desc">Mise en ligne + formation utilisation incluse. Support 30 jours post-livraison. Option maintenance mensuelle pour suivi long terme.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section id="testimonials" style="padding:7rem 0;background:var(--bg)">
+  <div style="padding:0 5%;margin-bottom:3.5rem" class="rv">
+    <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--gold);letter-spacing:.1em;margin-bottom:.8rem">03 — Témoignages</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,5rem);letter-spacing:-.01em;line-height:.95;color:var(--w)">CE QUE DISENT<br>LES CLIENTS</h2>
+  </div>
+  <div style="overflow:hidden;padding:0 5%">
+    <div class="testi-track">
+      <!-- set 1 -->
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Site livré en 6 jours, exactement comme je le voulais. Les ventes ont augmenté dès la première semaine grâce au SEO et au design soigné. Je recommande sans hésiter."</p>
+        <div class="t-author">
+          <div class="t-av">AM</div>
+          <div><div class="t-name">Aicha M.</div><div class="t-role">Fondatrice · Boutique mode, Dakar 🇸🇳</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Très professionnel, communication claire et réactive. Notre plateforme e-learning est exactement ce qu'on cherchait. Le système de paiement en ligne fonctionne parfaitement."</p>
+        <div class="t-author">
+          <div class="t-av">KD</div>
+          <div><div class="t-name">Karim D.</div><div class="t-role">Directeur · Institut islamique, Paris 🇫🇷</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Notre site reçoit des inscriptions Hajj & Omra chaque jour depuis le lancement. Travail sérieux, délais respectés. Meilleur investissement digital de l'agence."</p>
+        <div class="t-author">
+          <div class="t-av">OB</div>
+          <div><div class="t-name">Omar B.</div><div class="t-role">Gérant · Agence voyages, Bamako 🇲🇱</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Script Python qui nous fait économiser 4h par semaine sur la gestion des stocks. ROI immédiat. Très bonne communication et livraison rapide. On travaillera de nouveau ensemble."</p>
+        <div class="t-author">
+          <div class="t-av">SK</div>
+          <div><div class="t-name">Serge K.</div><div class="t-role">Gérant · Commerce de gros, Cotonou 🇧🇯</div></div>
+        </div>
+      </div>
+      <!-- set 2 (duplicate for scroll) -->
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Site livré en 6 jours, exactement comme je le voulais. Les ventes ont augmenté dès la première semaine grâce au SEO et au design soigné. Je recommande sans hésiter."</p>
+        <div class="t-author">
+          <div class="t-av">AM</div>
+          <div><div class="t-name">Aicha M.</div><div class="t-role">Fondatrice · Boutique mode, Dakar 🇸🇳</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Très professionnel, communication claire et réactive. Notre plateforme e-learning est exactement ce qu'on cherchait. Le système de paiement en ligne fonctionne parfaitement."</p>
+        <div class="t-author">
+          <div class="t-av">KD</div>
+          <div><div class="t-name">Karim D.</div><div class="t-role">Directeur · Institut islamique, Paris 🇫🇷</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Notre site reçoit des inscriptions Hajj & Omra chaque jour depuis le lancement. Travail sérieux, délais respectés. Meilleur investissement digital de l'agence."</p>
+        <div class="t-author">
+          <div class="t-av">OB</div>
+          <div><div class="t-name">Omar B.</div><div class="t-role">Gérant · Agence voyages, Bamako 🇲🇱</div></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-quote">"</div>
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Script Python qui nous fait économiser 4h par semaine sur la gestion des stocks. ROI immédiat. Très bonne communication et livraison rapide. On travaillera de nouveau ensemble."</p>
+        <div class="t-author">
+          <div class="t-av">SK</div>
+          <div><div class="t-name">Serge K.</div><div class="t-role">Gérant · Commerce de gros, Cotonou 🇧🇯</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div>
+    <div class="c-eyebrow rv">Contact</div>
+    <h2 class="c-title rv">TU AS UN<br>PROJET ?<br><em>PARLONS.</em></h2>
+    <a href="mailto:tonemail@example.com" class="c-email rv">✉ clario.officiel@gmail.com</a>
+    <div class="c-rows rv">
+      <div class="c-row"><span class="c-row-icon">📍</span>Cotonou, Bénin — 100% Remote</div>
+      <div class="c-row"><span class="c-row-icon">📞</span>+229 01 97 69 30 78 (WhatsApp)</div>
+      <div class="c-row"><span class="c-row-icon">🕐</span>Réponse sous 24h · Lun–Sam</div>
+    </div>
+    <div class="socials rv">
+      <a class="s-link" href="#">LinkedIn</a>
+      <a class="s-link" href="#">GitHub</a>
+      <a class="s-link" href="#">Upwork</a>
+      <a class="s-link" href="#">Fiverr</a>
+    </div>
+  </div>
+  <div class="rv">
+    <div class="cform">
+      <div>
+        <label class="cf-label">Votre nom</label>
+        <input class="cf-field" type="text" placeholder="Jean Dupont">
+      </div>
+      <div>
+        <label class="cf-label">Votre email</label>
+        <input class="cf-field" type="email" placeholder="jean@example.com">
+      </div>
+      <div>
+        <label class="cf-label">Type de projet</label>
+        <input class="cf-field" type="text" placeholder="Site e-commerce, App mobile, Script Python…">
+      </div>
+      <div>
+        <label class="cf-label">Description</label>
+        <textarea class="cf-field" placeholder="Décrivez votre projet en quelques lignes…"></textarea>
+      </div>
+      <button class="cf-submit">Envoyer le message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <a class="f-logo" href="#">DEV<span>.</span>FOLIO</a>
+  <div class="f-mid">Développeur Freelance · Cotonou, Bénin 🇧🇯 · Afrique & Europe 🌍</div>
+  <div class="f-right">© 2025</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JS
+═══════════════════════════════════════════ -->
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button,.f-btn,.skill-pill').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('grow');ring.classList.add('grow')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('grow');ring.classList.remove('grow')});
+});
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>obs.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+function animCounter(el){
+  const target=+el.dataset.target;
+  let cur=0;const step=target/60;
+  const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=Math.floor(cur);if(cur>=target)clearInterval(t)},16);
+}
+const cObs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){animCounter(x.target);cObs.unobserve(x.target)}}),{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>cObs.observe(el));
+
+/* ── PROJECT FILTER ── */
+function filterP(cat,btn){
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.proj-card').forEach(c=>{
+    const show=cat==='all'||c.dataset.c===cat;
+    if(show){c.style.display='block';requestAnimationFrame(()=>{c.style.opacity='1';c.style.transform='translateY(0)'});}
+    else{c.style.opacity='0';c.style.transform='translateY(16px)';setTimeout(()=>c.style.display='none',280);}
+  });
+}
+
+/* ── HORIZONTAL SCROLL on process ── */
+const ps=document.querySelector('.process-steps');
+if(ps){
+  ps.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaX)<Math.abs(e.deltaY)){e.preventDefault();ps.scrollLeft+=e.deltaY*0.7;}
+  },{passive:false});
+}
+</script>
+</body>
+</html>
