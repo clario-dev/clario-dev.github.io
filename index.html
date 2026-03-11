@@ -354,10 +354,12 @@ nav.scrolled{
 .proj-card:nth-child(3){grid-column:span 5}
 .proj-card:nth-child(4){grid-column:span 7}
 .proj-card:nth-child(5){grid-column:span 12}
-.proj-card:nth-child(6){grid-column:span 6}
-.proj-card:nth-child(7){grid-column:span 6}
-.proj-card:nth-child(8){grid-column:span 4}
-.proj-card:nth-child(9){grid-column:span 8}
+.proj-card:nth-child(6){grid-column:span 5}
+.proj-card:nth-child(7){grid-column:span 7}
+.proj-card:nth-child(8){grid-column:span 6}
+.proj-card:nth-child(9){grid-column:span 6}
+.proj-card:nth-child(10){grid-column:span 4}
+.proj-card:nth-child(11){grid-column:span 8}
 
 /* thumb */
 .p-thumb{
@@ -365,12 +367,7 @@ nav.scrolled{
   background:var(--bg2);
 }
 .proj-card:nth-child(5) .p-thumb{height:340px}
-.p-thumb iframe{
-  position:absolute;top:0;left:0;
-  width:200%;height:200%;
-  transform:scale(.5);transform-origin:top left;
-  pointer-events:none;border:none;
-}
+/* iframes replaced by optimized <img> with thum.io screenshots */
 /* overlay on thumb */
 .p-thumb::after{
   content:'';position:absolute;inset:0;
@@ -654,7 +651,7 @@ footer{
 @media(max-width:1100px){
   .proj-card:nth-child(1),.proj-card:nth-child(2),.proj-card:nth-child(3),
   .proj-card:nth-child(4),.proj-card:nth-child(5),.proj-card:nth-child(6),
-  .proj-card:nth-child(7),.proj-card:nth-child(8),.proj-card:nth-child(9){grid-column:span 6}
+  .proj-card:nth-child(7),.proj-card:nth-child(8),.proj-card:nth-child(9),.proj-card:nth-child(10),.proj-card:nth-child(11){grid-column:span 6}
 }
 @media(max-width:768px){
   nav ul,.nav-avail{display:none}
@@ -668,6 +665,23 @@ footer{
   footer{flex-direction:column;gap:1rem;text-align:center}
   .testi-track{animation:none;flex-wrap:wrap}
 }
+
+/* ── THUMB IMAGE OPTIMIZATIONS ── */
+.p-thumb-img img { will-change: transform; }
+.proj-card:hover .p-thumb-img img { transform: scale(1.05); }
+.p-thumb-img { cursor: pointer; }
+
+/* skeleton loader */
+.p-thumb-img::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.p-thumb-img img[src] { position: relative; z-index: 1; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
 </style>
 </head>
 <body>
@@ -799,8 +813,27 @@ footer{
 
     <!-- 1 — Lune Faction -->
     <div class="proj-card rv" data-c="wp">
-      <div class="p-thumb">
-        <iframe src="https://lune-faction.com/" loading="lazy" scrolling="no" title="Lune Faction"></iframe>
+<div class="p-thumb p-thumb-img" style="position:relative;overflow:hidden;background:#1a0a1e">
+        <img 
+          src="https://pagepeeker.com/v2/thumbs.php?size=x&url=https://lune-faction.com/"
+          alt="Lune Faction™"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);"
+          onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://image.thum.io/get/width/1280/crop/800/noanimate/https://lune-faction.com/';}else{this.style.display='none';this.nextElementSibling.style.display='flex';}" 
+        >
+        <div class="p-thumb-fallback" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#1a0a1e;position:absolute;inset:0;">
+          <div style="font-size:2.8rem;margin-bottom:.8rem;filter:drop-shadow(0 0 20px #c9a96e44)">💍</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#c9a96e;letter-spacing:.1em;margin-bottom:.3rem">Lune Faction™</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Bijoux & Décorations Lune</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#444;letter-spacing:.06em;border:1px solid #222;padding:.3rem .8rem;border-radius:1px">WordPress · E-commerce · France</div>
+          <a href="https://lune-faction.com/" target="_blank" rel="noopener" style="margin-top:1rem;font-family:'DM Mono',monospace;font-size:.62rem;color:#c9a96e;text-decoration:none;border:1px solid #c9a96e44;padding:.35rem .9rem;border-radius:1px;transition:all .2s;letter-spacing:.06em">Voir le site →</a>
+        </div>
+        <div class="p-thumb-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,10,18,.95) 100%);pointer-events:none;z-index:1"></div>
+        <div class="p-thumb-live" style="position:absolute;top:.8rem;right:.8rem;z-index:2;display:flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:.3rem .7rem;border-radius:100px;">
+          <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:.55rem;color:#aaa;letter-spacing:.06em">LIVE</span>
+        </div>
       </div>
       <div class="p-body">
         <div class="p-cat">WordPress · E-commerce · Mode & Bijoux</div>
@@ -815,8 +848,27 @@ footer{
 
     <!-- 2 — Ara Business -->
     <div class="proj-card rv" data-c="wp">
-      <div class="p-thumb">
-        <iframe src="https://www.arabusiness.fr/" loading="lazy" scrolling="no" title="Ara Business"></iframe>
+<div class="p-thumb p-thumb-img" style="position:relative;overflow:hidden;background:#0e0a14">
+        <img 
+          src="https://pagepeeker.com/v2/thumbs.php?size=x&url=https://www.arabusiness.fr/"
+          alt="Ara Business"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);"
+          onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://image.thum.io/get/width/1280/crop/800/noanimate/https://www.arabusiness.fr/';}else{this.style.display='none';this.nextElementSibling.style.display='flex';}" 
+        >
+        <div class="p-thumb-fallback" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#0e0a14;position:absolute;inset:0;">
+          <div style="font-size:2.8rem;margin-bottom:.8rem;filter:drop-shadow(0 0 20px #d4a0c044)">👜</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#d4a0c0;letter-spacing:.1em;margin-bottom:.3rem">Ara Business</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Mode Féminine · Dakar</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#444;letter-spacing:.06em;border:1px solid #222;padding:.3rem .8rem;border-radius:1px">WordPress · Mode · Sénégal</div>
+          <a href="https://www.arabusiness.fr/" target="_blank" rel="noopener" style="margin-top:1rem;font-family:'DM Mono',monospace;font-size:.62rem;color:#d4a0c0;text-decoration:none;border:1px solid #d4a0c044;padding:.35rem .9rem;border-radius:1px;transition:all .2s;letter-spacing:.06em">Voir le site →</a>
+        </div>
+        <div class="p-thumb-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,10,18,.95) 100%);pointer-events:none;z-index:1"></div>
+        <div class="p-thumb-live" style="position:absolute;top:.8rem;right:.8rem;z-index:2;display:flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:.3rem .7rem;border-radius:100px;">
+          <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:.55rem;color:#aaa;letter-spacing:.06em">LIVE</span>
+        </div>
       </div>
       <div class="p-body">
         <div class="p-cat">WordPress · Mode Féminine · Dakar 🇸🇳</div>
@@ -831,8 +883,27 @@ footer{
 
     <!-- 3 — Daaru Al'Qurane -->
     <div class="proj-card rv" data-c="wp">
-      <div class="p-thumb">
-        <iframe src="https://daarualqurane.com/" loading="lazy" scrolling="no" title="Daaru Al Qurane"></iframe>
+<div class="p-thumb p-thumb-img" style="position:relative;overflow:hidden;background:#0a1208">
+        <img 
+          src="https://pagepeeker.com/v2/thumbs.php?size=x&url=https://daarualqurane.com/"
+          alt="Daaru Al'Qurane"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);"
+          onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://image.thum.io/get/width/1280/crop/800/noanimate/https://daarualqurane.com/';}else{this.style.display='none';this.nextElementSibling.style.display='flex';}" 
+        >
+        <div class="p-thumb-fallback" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#0a1208;position:absolute;inset:0;">
+          <div style="font-size:2.8rem;margin-bottom:.8rem;filter:drop-shadow(0 0 20px #4ade8044)">📖</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#4ade80;letter-spacing:.1em;margin-bottom:.3rem">Daaru Al'Qurane</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Institut islamique en ligne</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#444;letter-spacing:.06em;border:1px solid #222;padding:.3rem .8rem;border-radius:1px">WordPress · E-learning</div>
+          <a href="https://daarualqurane.com/" target="_blank" rel="noopener" style="margin-top:1rem;font-family:'DM Mono',monospace;font-size:.62rem;color:#4ade80;text-decoration:none;border:1px solid #4ade8044;padding:.35rem .9rem;border-radius:1px;transition:all .2s;letter-spacing:.06em">Voir le site →</a>
+        </div>
+        <div class="p-thumb-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,10,18,.95) 100%);pointer-events:none;z-index:1"></div>
+        <div class="p-thumb-live" style="position:absolute;top:.8rem;right:.8rem;z-index:2;display:flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:.3rem .7rem;border-radius:100px;">
+          <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:.55rem;color:#aaa;letter-spacing:.06em">LIVE</span>
+        </div>
       </div>
       <div class="p-body">
         <div class="p-cat">WordPress · E-learning · Institut islamique</div>
@@ -847,8 +918,27 @@ footer{
 
     <!-- 4 — Best Gift Hunt -->
     <div class="proj-card rv" data-c="wp">
-      <div class="p-thumb">
-        <iframe src="https://bestgifthunt.com/" loading="lazy" scrolling="no" title="Best Gift Hunt"></iframe>
+<div class="p-thumb p-thumb-img" style="position:relative;overflow:hidden;background:#0a0800">
+        <img 
+          src="https://pagepeeker.com/v2/thumbs.php?size=x&url=https://bestgifthunt.com/"
+          alt="Best Gift Hunt"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);"
+          onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://image.thum.io/get/width/1280/crop/800/noanimate/https://bestgifthunt.com/';}else{this.style.display='none';this.nextElementSibling.style.display='flex';}" 
+        >
+        <div class="p-thumb-fallback" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#0a0800;position:absolute;inset:0;">
+          <div style="font-size:2.8rem;margin-bottom:.8rem;filter:drop-shadow(0 0 20px #facc1544)">🎁</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#facc15;letter-spacing:.1em;margin-bottom:.3rem">Best Gift Hunt</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Affiliation Amazon · SEO</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#444;letter-spacing:.06em;border:1px solid #222;padding:.3rem .8rem;border-radius:1px">WordPress · SEO · Affiliation</div>
+          <a href="https://bestgifthunt.com/" target="_blank" rel="noopener" style="margin-top:1rem;font-family:'DM Mono',monospace;font-size:.62rem;color:#facc15;text-decoration:none;border:1px solid #facc1544;padding:.35rem .9rem;border-radius:1px;transition:all .2s;letter-spacing:.06em">Voir le site →</a>
+        </div>
+        <div class="p-thumb-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,10,18,.95) 100%);pointer-events:none;z-index:1"></div>
+        <div class="p-thumb-live" style="position:absolute;top:.8rem;right:.8rem;z-index:2;display:flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:.3rem .7rem;border-radius:100px;">
+          <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:.55rem;color:#aaa;letter-spacing:.06em">LIVE</span>
+        </div>
       </div>
       <div class="p-body">
         <div class="p-cat">WordPress · Affiliation Amazon · SEO</div>
@@ -863,8 +953,27 @@ footer{
 
     <!-- 5 — Almaqam Bamako (wide) -->
     <div class="proj-card rv" data-c="wp">
-      <div class="p-thumb">
-        <iframe src="https://almaqambko.com/hajj/" loading="lazy" scrolling="no" title="Almaqam Bamako"></iframe>
+<div class="p-thumb p-thumb-img" style="position:relative;overflow:hidden;background:#0a0800">
+        <img 
+          src="https://pagepeeker.com/v2/thumbs.php?size=x&url=https://almaqambko.com/hajj/"
+          alt="Almaqam Bamako"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);"
+          onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://image.thum.io/get/width/1280/crop/800/noanimate/https://almaqambko.com/hajj/';}else{this.style.display='none';this.nextElementSibling.style.display='flex';}" 
+        >
+        <div class="p-thumb-fallback" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#0a0800;position:absolute;inset:0;">
+          <div style="font-size:2.8rem;margin-bottom:.8rem;filter:drop-shadow(0 0 20px #c9a96e44)">🕌</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#c9a96e;letter-spacing:.1em;margin-bottom:.3rem">Almaqam Bamako</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Hajj & Omra · Bamako</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#444;letter-spacing:.06em;border:1px solid #222;padding:.3rem .8rem;border-radius:1px">WordPress · Voyage · Mali</div>
+          <a href="https://almaqambko.com/hajj/" target="_blank" rel="noopener" style="margin-top:1rem;font-family:'DM Mono',monospace;font-size:.62rem;color:#c9a96e;text-decoration:none;border:1px solid #c9a96e44;padding:.35rem .9rem;border-radius:1px;transition:all .2s;letter-spacing:.06em">Voir le site →</a>
+        </div>
+        <div class="p-thumb-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,10,18,.95) 100%);pointer-events:none;z-index:1"></div>
+        <div class="p-thumb-live" style="position:absolute;top:.8rem;right:.8rem;z-index:2;display:flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:.3rem .7rem;border-radius:100px;">
+          <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:.55rem;color:#aaa;letter-spacing:.06em">LIVE</span>
+        </div>
       </div>
       <div class="p-body">
         <div class="p-cat">WordPress · Agence de voyage · Bamako 🇲🇱</div>
@@ -873,6 +982,42 @@ footer{
         <div class="p-foot">
           <div class="p-tags"><span class="p-tag">WordPress</span><span class="p-tag">Voyage</span><span class="p-tag">Mali</span><span class="p-tag">WhatsApp</span></div>
           <a class="p-link" href="https://almaqambko.com/hajj/" target="_blank" rel="noopener">Voir →</a>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 6 — Roger Lafia (NOUVEAU) -->
+    <div class="proj-card rv" data-c="wp">
+<div class="p-thumb p-thumb-img" style="position:relative;overflow:hidden;background:#0a0f05">
+        <img 
+          src="https://pagepeeker.com/v2/thumbs.php?size=x&url=https://www.rogerlafia.com/"
+          alt="Complexe Scolaire Roger Lafia"
+          loading="lazy"
+          decoding="async"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);"
+          onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://image.thum.io/get/width/1280/crop/800/noanimate/https://www.rogerlafia.com/';}else{this.style.display='none';this.nextElementSibling.style.display='flex';}"
+        >
+        <div class="p-thumb-fallback" style="display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;background:#0a0f05;position:absolute;inset:0;">
+          <div style="font-size:2.8rem;margin-bottom:.8rem;filter:drop-shadow(0 0 20px #4ade8044)">🏫</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#4ade80;letter-spacing:.1em;margin-bottom:.3rem">Roger Lafia</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:#666;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem">Complexe Scolaire · Parakou</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.55rem;color:#444;letter-spacing:.06em;border:1px solid #222;padding:.3rem .8rem;border-radius:1px">WordPress · Éducation · Bénin</div>
+          <a href="https://www.rogerlafia.com/" target="_blank" rel="noopener" style="margin-top:1rem;font-family:'DM Mono',monospace;font-size:.62rem;color:#4ade80;text-decoration:none;border:1px solid #4ade8044;padding:.35rem .9rem;border-radius:1px;letter-spacing:.06em">Voir le site →</a>
+        </div>
+        <div class="p-thumb-overlay" style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(10,10,18,.95) 100%);pointer-events:none;z-index:1"></div>
+        <div class="p-thumb-live" style="position:absolute;top:.8rem;right:.8rem;z-index:2;display:flex;align-items:center;gap:.4rem;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);padding:.3rem .7rem;border-radius:100px;">
+          <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:.55rem;color:#aaa;letter-spacing:.06em">LIVE</span>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="p-cat">WordPress · Site institutionnel · Éducation 🇧🇯</div>
+        <div class="p-title">Roger Lafia — Complexe Scolaire à Parakou</div>
+        <p class="p-desc">Site vitrine pour le 1er complexe scolaire privé du nord Bénin. Maternelle, primaire et secondaire. Présentation des cycles, actualités, formulaire de contact et inscription en ligne. Parakou, Bénin.</p>
+        <div class="p-foot">
+          <div class="p-tags"><span class="p-tag">WordPress</span><span class="p-tag">Éducation</span><span class="p-tag">Parakou</span><span class="p-tag">Bénin 🇧🇯</span></div>
+          <a class="p-link" href="https://www.rogerlafia.com/" target="_blank" rel="noopener">Voir →</a>
         </div>
       </div>
     </div>
@@ -1159,38 +1304,41 @@ footer{
   <div>
     <div class="c-eyebrow rv">Contact</div>
     <h2 class="c-title rv">TU AS UN<br>PROJET ?<br><em>PARLONS.</em></h2>
-    <a href="mailto:tonemail@example.com" class="c-email rv">✉ clario.officiel@gmail.com</a>
+    <a href="/cdn-cgi/l/email-protection#1d7e717c6f747233727b7b747e7478715d7a707c7471337e7270" class="c-email rv">✉ <span class="__cf_email__" data-cfemail="d8bbb4b9aab1b7f6b7bebeb1bbb1bdb498bfb5b9b1b4f6bbb7b5">[email&#160;protected]</span></a>
     <div class="c-rows rv">
       <div class="c-row"><span class="c-row-icon">📍</span>Cotonou, Bénin — 100% Remote</div>
       <div class="c-row"><span class="c-row-icon">📞</span>+229 01 97 69 30 78 (WhatsApp)</div>
       <div class="c-row"><span class="c-row-icon">🕐</span>Réponse sous 24h · Lun–Sam</div>
     </div>
     <div class="socials rv">
-      <a class="s-link" href="#">LinkedIn</a>
-      <a class="s-link" href="#">GitHub</a>
-      <a class="s-link" href="#">Upwork</a>
-      <a class="s-link" href="#">Fiverr</a>
+      <a class="s-link" href="https://linkedin.com/in/clario-dev" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="s-link" href="https://github.com/clario-dev" target="_blank" rel="noopener">GitHub</a>
+      <a class="s-link" href="https://upwork.com" target="_blank" rel="noopener">Upwork</a>
+      <a class="s-link" href="https://fiverr.com" target="_blank" rel="noopener">Fiverr</a>
     </div>
   </div>
   <div class="rv">
     <div class="cform">
       <div>
         <label class="cf-label">Votre nom</label>
-        <input class="cf-field" type="text" placeholder="Jean Dupont">
+        <input class="cf-field" id="cf-name" type="text" placeholder="Jean Dupont">
       </div>
       <div>
         <label class="cf-label">Votre email</label>
-        <input class="cf-field" type="email" placeholder="jean@example.com">
+        <input class="cf-field" id="cf-email" type="email" placeholder="jean@example.com">
       </div>
       <div>
         <label class="cf-label">Type de projet</label>
-        <input class="cf-field" type="text" placeholder="Site e-commerce, App mobile, Script Python…">
+        <input class="cf-field" id="cf-projet" type="text" placeholder="Site e-commerce, App mobile, Script Python…">
       </div>
       <div>
         <label class="cf-label">Description</label>
-        <textarea class="cf-field" placeholder="Décrivez votre projet en quelques lignes…"></textarea>
+        <textarea class="cf-field" id="cf-message" placeholder="Décrivez votre projet en quelques lignes…"></textarea>
       </div>
-      <button class="cf-submit">Envoyer le message →</button>
+      <button class="cf-submit" id="cf-btn" onclick="sendContact()">Envoyer le message →</button>
+      <div id="cf-success" style="display:none;background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.25);border-radius:2px;padding:1rem 1.2rem;font-family:'DM Mono',monospace;font-size:.75rem;color:#00D68F;letter-spacing:.06em;text-align:center">
+        ✅ Message envoyé ! Je vous réponds sous 24h.
+      </div>
     </div>
   </div>
 </section>
@@ -1205,7 +1353,7 @@ footer{
 <!-- ═══════════════════════════════════════════
      JS
 ═══════════════════════════════════════════ -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ── */
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -1242,18 +1390,4 @@ function filterP(cat,btn){
   btn.classList.add('on');
   document.querySelectorAll('.proj-card').forEach(c=>{
     const show=cat==='all'||c.dataset.c===cat;
-    if(show){c.style.display='block';requestAnimationFrame(()=>{c.style.opacity='1';c.style.transform='translateY(0)'});}
-    else{c.style.opacity='0';c.style.transform='translateY(16px)';setTimeout(()=>c.style.display='none',280);}
-  });
-}
-
-/* ── HORIZONTAL SCROLL on process ── */
-const ps=document.querySelector('.process-steps');
-if(ps){
-  ps.addEventListener('wheel',e=>{
-    if(Math.abs(e.deltaX)<Math.abs(e.deltaY)){e.preventDefault();ps.scrollLeft+=e.deltaY*0.7;}
-  },{passive:false});
-}
-</script>
-</body>
-</html>
+    if(show){c.style.display='
